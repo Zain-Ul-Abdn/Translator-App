@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/drawable/boxshadow.xml" value="0.1" />
+        <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/drawable/boxstyle.xml" value="0.1115" />
+        <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/drawable/roundcoarcorne5.xml" value="0.1" />
         <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/drawable/roundcorner.xml" value="0.161" />
+        <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/drawable/textbox_border.xml" value="0.1" />
+        <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/layout/activity_dashboard.xml" value="0.4" />
         <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/layout/activity_main2.xml" value="0.1" />
         <entry key="..\:/AppDevelopment/TranslationApp/app/src/main/res/layout/activity_policy_page.xml" value="0.264" />
