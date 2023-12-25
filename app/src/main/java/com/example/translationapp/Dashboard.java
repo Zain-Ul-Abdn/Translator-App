@@ -2,6 +2,7 @@ package com.example.translationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,13 +13,15 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 public class Dashboard extends AppCompatActivity {
     private MultiAutoCompleteTextView userText;
     private View translateBtn;
     private TextView translatedText;
     private String result;
     TranslationServiceManager serviceManager = new TranslationServiceManager();
-
+    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class Dashboard extends AppCompatActivity {
                 translatedText.setText(result);
             }
         });
+
+
         //Implement CopyText Logic for userText
         ImageView usertxt = findViewById(R.id.usertxtCopy);
         CharSequence usertext_to_copy = userText.getText().toString();
@@ -70,6 +75,29 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Clipboard.SaveToClipboard(transtext_to_copy);
                 Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Implement Listen text logic for user text
+        ImageView listenUserText = findViewById(R.id.usertextListen);
+        TextListner listner = new TextListner(this);
+
+        listenUserText.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 String text = userText.getText().toString();
+                    listner.speak(text);
+             }
+         });
+
+        //Implement Listen text logic for translated text
+        ImageView listenTransText = findViewById(R.id.translatedttxtListen);
+
+        listenTransText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = translatedText.getText().toString();
+                listner.speak(text);
             }
         });
     }
