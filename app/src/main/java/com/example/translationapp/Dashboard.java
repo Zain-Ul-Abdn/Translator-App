@@ -30,9 +30,15 @@ public class Dashboard extends AppCompatActivity {
 
         setContentView(R.layout.activity_dashboard);
 
-
+        //Initialize variables
+        // Getting User Input text box
         userText = findViewById(R.id.translatedtextbox);
+
+        //Getting Translate Button through which
+        //user can translate text
         translateBtn  = findViewById(R.id.translatetextbtn);
+
+        //Text View where translated text display
         translatedText = findViewById(R.id.translatedTextView);
 
         translateBtn.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +81,5 @@ public class Dashboard extends AppCompatActivity {
         }).start();
     }
 
-
-    }
+}
 

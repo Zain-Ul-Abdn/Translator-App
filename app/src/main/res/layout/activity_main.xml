@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/policyCheckBox"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="128dp"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="140dp"
-        android:layout_marginEnd="65dp"
+        android:layout_marginEnd="48dp"
         android:text="Terms &amp; Policy"
         android:textColor="#0029FF"
         android:textSize="18sp"
@@ -111,6 +111,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/readPolicyLink"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/checkBox" />
+        app:layout_constraintStart_toEndOf="@+id/policyCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

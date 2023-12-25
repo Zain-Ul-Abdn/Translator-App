@@ -11,13 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TranslationApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".Dashboard"
             android:exported="false" />
         <activity
             android:name=".PolicyPage"
             android:exported="false" />
         <activity
-            android:name=".Dashboard"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
