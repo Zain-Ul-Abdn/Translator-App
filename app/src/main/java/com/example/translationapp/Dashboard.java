@@ -1,11 +1,11 @@
 package com.example.translationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,13 +19,14 @@ public class Dashboard extends AppCompatActivity {
     private String result;
     TranslationServiceManager serviceManager = new TranslationServiceManager();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Removing default top header of application
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide(); //This line hide default header
 
         setContentView(R.layout.activity_dashboard);
@@ -36,7 +37,7 @@ public class Dashboard extends AppCompatActivity {
 
         //Getting Translate Button through which
         //user can translate text
-        translateBtn  = findViewById(R.id.translatetextbtn);
+        translateBtn = findViewById(R.id.translatetextbtn);
 
         //Text View where translated text display
         translatedText = findViewById(R.id.translatedTextView);
@@ -48,9 +49,32 @@ public class Dashboard extends AppCompatActivity {
                 translatedText.setText(result);
             }
         });
+        //Implement CopyText Logic for userText
+        ImageView usertxt = findViewById(R.id.usertxtCopy);
+        CharSequence usertext_to_copy = userText.getText().toString();
+
+        usertxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Clipboard.SaveToClipboard(usertext_to_copy);
+                Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Implement CopyText Logic for Translated Text
+        ImageView translatedtxt = findViewById(R.id.translatedtxtCopy);
+         CharSequence transtext_to_copy = userText.getText().toString();
+
+        translatedtxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Clipboard.SaveToClipboard(transtext_to_copy);
+                Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public void createThread(){
+   public void createThread(){
 
         String sourceLanguage = "en";
         String targetLanguage = "ur";

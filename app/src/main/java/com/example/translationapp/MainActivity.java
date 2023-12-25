@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Agree policy agreement", Toast.LENGTH_SHORT).show();
                     }
 
-
                 }catch (Exception e){
 
                     //Handle Error
