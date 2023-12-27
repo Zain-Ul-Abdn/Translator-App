@@ -1,6 +1,8 @@
 package com.example.translationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -48,12 +50,13 @@ public class Dashboard extends AppCompatActivity {
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createThread();
+                createThread("en","ur",userText.getText().toString());
                 translatedText.setText(result);
             }
         });
 
 
+        Clipboard clipboard = new Clipboard(Dashboard.this);
         //Implement CopyText Logic for userText
         ImageView usertxt = findViewById(R.id.usertxtCopy);
         CharSequence usertext_to_copy = userText.getText().toString();
@@ -61,7 +64,7 @@ public class Dashboard extends AppCompatActivity {
         usertxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Clipboard.SaveToClipboard(usertext_to_copy);
+                clipboard.SaveToClipboard(usertext_to_copy);
                 Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -73,7 +76,7 @@ public class Dashboard extends AppCompatActivity {
         translatedtxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Clipboard.SaveToClipboard(transtext_to_copy);
+                clipboard.SaveToClipboard(transtext_to_copy);
                 Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -100,13 +103,23 @@ public class Dashboard extends AppCompatActivity {
                 listner.speak(text);
             }
         });
+
+        //Shut Down
+        ImageView shutdown = findViewById(R.id.shutdownImg);
+        shutdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
+                startActivity(shutdownIntent);
+            }
+        });
     }
 
-   public void createThread(){
+   public void createThread(String source,String target, String text){
 
-        String sourceLanguage = "en";
-        String targetLanguage = "ur";
-        String textToTranslate = userText.getText().toString();
+        String sourceLanguage = source;
+        String targetLanguage = target;
+        String textToTranslate = text;
 
 
         new Thread(() -> {

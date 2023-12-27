@@ -5,17 +5,17 @@ import android.content.ClipboardManager;
 import android.content.Context;
 
 public class Clipboard {
-    private static ClipboardManager clipboardManager;
+    private ClipboardManager clipboardManager;
     Clipboard(Context context){
         clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
     }
 
-    public static void SaveToClipboard(CharSequence text){
+    public void SaveToClipboard(CharSequence text){
         try {
 
             if(!text.equals(" ")){
-                ClipData clipData = ClipData.newPlainText("label", text);
+                ClipData clipData = ClipData.newPlainText("User Text", text);
                 clipboardManager.setPrimaryClip(clipData);
             }
         }catch (Exception e){

@@ -24,10 +24,10 @@
 
     <CheckBox
         android:id="@+id/policyCheckBox"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="128dp"
-        android:layout_marginStart="44dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="172dp"
+        android:layout_marginStart="88dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -62,14 +62,17 @@
         android:id="@+id/readPolicyLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="176dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginStart="5dp"
         android:text="Terms &amp; Policy"
+
         android:textColor="#0029FF"
         android:textSize="18sp"
-
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView2"
@@ -102,15 +105,12 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="176dp"
         android:layout_marginStart="8dp"
         android:text="I accept the"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/readPolicyLink"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/policyCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
