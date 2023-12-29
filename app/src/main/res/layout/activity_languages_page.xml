@@ -23,6 +23,16 @@
         android:textSize="25sp"
         app:fontFamily="@font/inria_sans_bold" />
 
+    <EditText
+        android:id="@+id/searchtxt"
+        android:layout_width="397dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Search your language"
+        android:inputType="textPersonName" />
+
     <TextView
         android:id="@+id/textView16"
         android:layout_width="395dp"
@@ -30,7 +40,8 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:gravity="start|center"
-        android:text="Downloaded Languages"
+        android:text="All Languages"
+        android:orientation="horizontal"
         android:textColor="#000000"
         android:textSize="18sp"
         app:fontFamily="@font/inria_sans_bold" />
@@ -38,24 +49,7 @@
     <ListView
         android:id="@+id/list1"
         android:layout_width="wrap_content"
-        android:layout_height="184dp"
+        android:layout_height="723dp"
         android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="395dp"
-        android:layout_height="44dp"
-        android:layout_weight="1"
-        android:gravity="start|center"
-        android:text="All Languages"
-        android:layout_marginTop="15dp"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:fontFamily="@font/inria_sans_bold" />
-
-    <ListView
-        android:id="@+id/list2"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:layout_weight="1" />
 </LinearLayout>

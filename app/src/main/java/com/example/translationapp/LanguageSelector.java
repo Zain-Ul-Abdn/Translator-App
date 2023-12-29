@@ -52,13 +52,13 @@ public class LanguageSelector {
         return  languagecode;
     }
 
-    public ArrayList<String> listAllLanguages(){
+    public ArrayList<String> listAllLanguages() {
         ArrayList<String> languages = new ArrayList<>();
-        for (String language :
-             languageCodeMap.keySet()  ) {
+        for (String language : languageCodeMap.keySet()) {
             languages.add(language);
         }
         return languages;
     }
+
 
 }
