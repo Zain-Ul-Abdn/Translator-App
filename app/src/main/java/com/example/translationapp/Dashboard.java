@@ -22,8 +22,11 @@ public class Dashboard extends AppCompatActivity {
     private View translateBtn;
     private TextView translatedText;
     private String result;
-    TranslationServiceManager serviceManager = new TranslationServiceManager();
-    private TextToSpeech textToSpeech;
+    private TextView sourcelan;
+    private TextView targetlan;
+    private TranslationServiceManager serviceManager;
+    private  Clipboard clipboard;
+    private MyLanguages languages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,13 @@ public class Dashboard extends AppCompatActivity {
 
         setContentView(R.layout.activity_dashboard);
 
+        //All Intents
+        Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
+
+
         //Initialize variables
+        languages = new MyLanguages();
+
         // Getting User Input text box
         userText = findViewById(R.id.translatedtextbox);
 
@@ -47,16 +56,28 @@ public class Dashboard extends AppCompatActivity {
         //Text View where translated text display
         translatedText = findViewById(R.id.translatedTextView);
 
+        //Getting source language from source language textView
+        sourcelan = findViewById(R.id.sourcelanguage);
+
+        //Getting target language from target language textView
+        targetlan = findViewById(R.id.targetlanguage);
+
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createThread("en","ur",userText.getText().toString());
+                String source = sourcelan.getText().toString();
+                String target = targetlan.getText().toString();
+
+                String sourceLanCode = languages.languageCode(source);
+                String targetLanCode = languages.languageCode(target);
+
+                createThread(sourceLanCode,targetLanCode,userText.getText().toString());
                 translatedText.setText(result);
             }
         });
 
+        clipboard = new Clipboard(Dashboard.this);
 
-        Clipboard clipboard = new Clipboard(Dashboard.this);
         //Implement CopyText Logic for userText
         ImageView usertxt = findViewById(R.id.usertxtCopy);
         CharSequence usertext_to_copy = userText.getText().toString();
@@ -64,20 +85,25 @@ public class Dashboard extends AppCompatActivity {
         usertxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clipboard.SaveToClipboard(usertext_to_copy);
-                Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
+                if(usertext_to_copy != null && usertext_to_copy != " "){
+                    clipboard.SaveToClipboard(usertext_to_copy);
+                }
+                else{
+                    Toast.makeText(Dashboard.this, "Runnong", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         //Implement CopyText Logic for Translated Text
         ImageView translatedtxt = findViewById(R.id.translatedtxtCopy);
-         CharSequence transtext_to_copy = userText.getText().toString();
+        CharSequence transtext_to_copy = userText.getText().toString();
 
         translatedtxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clipboard.SaveToClipboard(transtext_to_copy);
-                Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
+                if(!((String) transtext_to_copy).isEmpty()){
+                    clipboard.SaveToClipboard(transtext_to_copy);
+                }
             }
         });
 
@@ -104,12 +130,12 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        //Shut Down
+        //Shut Down feature
+        //User navigate to startup screen
         ImageView shutdown = findViewById(R.id.shutdownImg);
         shutdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
                 startActivity(shutdownIntent);
             }
         });
@@ -117,14 +143,11 @@ public class Dashboard extends AppCompatActivity {
 
    public void createThread(String source,String target, String text){
 
-        String sourceLanguage = source;
-        String targetLanguage = target;
-        String textToTranslate = text;
-
+       serviceManager = new TranslationServiceManager();
 
         new Thread(() -> {
             try {
-                result = serviceManager.translateText(sourceLanguage, targetLanguage, textToTranslate);
+                result = serviceManager.translateText(source, target, text);
 
                 //Convert String to Json Object
                 try {

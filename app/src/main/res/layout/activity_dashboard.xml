@@ -26,6 +26,7 @@
         android:text="Language Translator"
         android:textColor="#ffffff"
         android:textSize="28dp"
+
         app:fontFamily="@font/inria_sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.381"
@@ -44,10 +45,10 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="375dp"
+        android:layout_width="382dp"
         android:layout_height="241dp"
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/textbox_border"
         android:elevation="8dp"
         android:paddingBottom="5sp"
@@ -55,8 +56,9 @@
         android:paddingRight="5sp"
         android:paddingTop="5sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
         <Button
             android:id="@+id/translatetextbtn"
@@ -100,7 +102,7 @@
             android:layout_height="180dp"
             android:backgroundTint="#FFFFFF"
             android:gravity="start"
-            android:hint="Your translated text"
+            android:hint="Enter text to translate"
             android:padding="10dp"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -207,14 +209,82 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icons8_time_machine_24" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="349dp"
-        android:layout_height="67dp"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="317dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/langnavigatorstyle"
+        android:elevation="8dp"
+        android:paddingEnd="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <TextView
+            android:id="@+id/sourcelanguage"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/strokeremove"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="English"
+            android:textSize="21dp"
+            app:fontFamily="@font/inria_sans_bold" />
+
+        <TextView
+            android:id="@+id/targetlanguage"
+            android:layout_width="67dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="40dp"
+
+            android:layout_marginTop="5dp"
+            android:background="@drawable/strokeremove"
+            android:ems="10"
+
+
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="Urdu"
+            android:textSize="21dp"
+            app:fontFamily="@font/inria_sans_bold" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/united_states" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="1dp"
+            app:srcCompat="@drawable/icons8_azerbaijan_48" />
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="145dp"
+
+            android:layout_marginTop="8dp"
+
+            app:srcCompat="@drawable/exchange" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--            android:layout_toRightOf="true"-->
+    <!--            android:layout_centerVertical="true"-->
+    <!--            android:layout_alignParentTop="true"-->
+    <!--            android:layout_centerVertical="true"-->
