@@ -74,22 +74,26 @@ public class Dashboard extends AppCompatActivity {
         String languageIntent = getIntent().getStringExtra("Language");
         String required = getIntent().getStringExtra("Required");
         String previous = getIntent().getStringExtra("previous");
+        String previousInput = getIntent().getStringExtra("userText");
 
         if(languageIntent != null){
             if (required.equals("source")){
                 sourcelan.setText(languageIntent);
                 targetlan.setText(previous);
+                userText.setText(previousInput); //Setting previous input text when selection languages
+
             }
             else{
                 targetlan.setText(languageIntent);
                 sourcelan.setText(previous);
+                userText.setText(previousInput); //Setting previous input text when selection languages
             }
         }
-
         else{
             targetlan.setText(languages.getTargetlan());
             sourcelan.setText(languages.getSourcelan());
         }
+
 
         //Implement swapping the source and target language
         ImageView swaplan = findViewById(R.id.changelanPos);
@@ -118,20 +122,24 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
+        //Getting source language from user selection
         sourcelan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sourceLanguage.putExtra("Language","source");
                 sourceLanguage.putExtra("Previous",targetlan.getText().toString());
+                sourceLanguage.putExtra("userTxt",userText.getText().toString());
                 startActivity(sourceLanguage);
             }
         });
 
+        //Getting target language from user selection
         targetlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 targetLanguage.putExtra("Language","target");
                 targetLanguage.putExtra("Previous",sourcelan.getText().toString());
+                targetLanguage.putExtra("userTxt",userText.getText().toString());
                 startActivity(targetLanguage);
             }
         });

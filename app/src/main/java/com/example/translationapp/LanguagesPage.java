@@ -44,6 +44,7 @@ public class LanguagesPage extends AppCompatActivity {
 
         String required = getIntent().getStringExtra("Language");
         String previously = getIntent().getStringExtra("Previous");
+        String usertxt = getIntent().getStringExtra("userTxt");
 
         try {
             lanlistview = new LanguageSelector();
@@ -70,14 +71,14 @@ public class LanguagesPage extends AppCompatActivity {
                     dashboardIntent.putExtra("Required","source");
                     dashboardIntent.putExtra("Language",parent.getItemAtPosition(position).toString());
                     dashboardIntent.putExtra("previous",previously);
-
                 }
                 else{
                     dashboardIntent.putExtra("Language",parent.getItemAtPosition(position).toString());
                     dashboardIntent.putExtra("Required","target");
                     dashboardIntent.putExtra("previous",previously);
-
                 }
+
+                dashboardIntent.putExtra("userText",usertxt);
                 startActivity(dashboardIntent);
             }
         });
