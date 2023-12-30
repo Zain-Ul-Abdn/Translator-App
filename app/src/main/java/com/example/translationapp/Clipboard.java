@@ -13,11 +13,11 @@ public class Clipboard {
         this.context = context;
     }
 
-    public void SaveToClipboard(CharSequence text){
+    public void SaveToClipboard(String text){
         try {
             clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clipData = ClipData.newPlainText("User Text", text);
-                clipboardManager.setPrimaryClip(clipData);
+            clipboardManager.setPrimaryClip(clipData);
             Toast.makeText(context, "Text Copied", Toast.LENGTH_SHORT).show();
 
         }catch (Exception e){

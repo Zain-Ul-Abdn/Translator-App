@@ -55,7 +55,7 @@ public class Dashboard extends AppCompatActivity {
         //Initialize variables
         languages = new LanguageSelector();
 
-        // Getting User Input text box
+        // Getting User Input from user text box
         userText = findViewById(R.id.translatedtextbox);
 
         //Getting Translate Button through which
@@ -139,30 +139,31 @@ public class Dashboard extends AppCompatActivity {
         clipboard = new Clipboard(Dashboard.this);
 
         //Implement CopyText Logic for userText
-        ImageView usertxt = findViewById(R.id.usertxtCopy);
-        CharSequence usertext_to_copy = userText.getText().toString();
-
-        usertxt.setOnClickListener(new View.OnClickListener() {
+        ImageView inputtxtCopybtn = findViewById(R.id.usertxtCopy);
+        inputtxtCopybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(usertext_to_copy != null && usertext_to_copy != " "){
-                    clipboard.SaveToClipboard(usertext_to_copy);
-                }
-                else{
-                    Toast.makeText(Dashboard.this, "Runnong", Toast.LENGTH_SHORT).show();
+                String inputText = userText.getText().toString(); // Move this line inside onClick
+
+                if (!inputText.trim().isEmpty()) {
+                    clipboard.SaveToClipboard(inputText);
+                } else {
+                    Toast.makeText(Dashboard.this, "Text is empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         //Implement CopyText Logic for Translated Text
-        ImageView translatedtxt = findViewById(R.id.translatedtxtCopy);
-        CharSequence transtext_to_copy = userText.getText().toString();
+        ImageView translatedtxtCopybtn = findViewById(R.id.translatedtxtCopy);
 
-        translatedtxt.setOnClickListener(new View.OnClickListener() {
+        translatedtxtCopybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!((String) transtext_to_copy).isEmpty()){
-                    clipboard.SaveToClipboard(transtext_to_copy);
+                String translatetxt = translatedText.getText().toString();
+                if (!translatetxt.trim().isEmpty()) {
+                    clipboard.SaveToClipboard(translatetxt);
+                } else {
+                    Toast.makeText(Dashboard.this, "Text is empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
