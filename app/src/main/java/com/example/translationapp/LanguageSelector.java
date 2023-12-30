@@ -1,6 +1,9 @@
 package com.example.translationapp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class LanguageSelector {
@@ -87,14 +90,15 @@ public class LanguageSelector {
         for (String language : languageCodeMap.keySet()) {
             languages.add(language);
         }
+        Collections.sort(languages);
         return languages;
     }
 
+
     private void AddLanguages(){
+        Arrays.sort(languages);
         for (int i = 0; i < languages.length; i++) {
             setLanguage(languages[i],langCode[i]);
         }
     }
-
-
 }
