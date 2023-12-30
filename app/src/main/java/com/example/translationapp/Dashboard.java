@@ -1,9 +1,12 @@
 package com.example.translationapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Dashboard extends AppCompatActivity {
@@ -27,6 +31,9 @@ public class Dashboard extends AppCompatActivity {
     private TranslationServiceManager serviceManager;
     private  Clipboard clipboard;
     private LanguageSelector languages;
+
+    protected static final int RESULT_SPEECH = 1;
+    private ImageView imageView7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +199,27 @@ public class Dashboard extends AppCompatActivity {
                 startActivity(shutdownIntent);
             }
         });
+
+
+        //Speech to text recognition
+        imageView7 = findViewById(R.id.imageView7);
+        imageView7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sourceLanCode = languages.getlanguageCode(sourcelan.getText().toString());
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, sourceLanCode );
+
+                try {
+                    startActivityForResult(intent, RESULT_SPEECH);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "Your device doesn't support Speech to Text", Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
    public void createThread(String source,String target, String text){
@@ -220,6 +248,28 @@ public class Dashboard extends AppCompatActivity {
                 // Handle any exceptions
             }
         }).start();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_SPEECH:
+                if (resultCode == RESULT_OK && data != null) {
+                    ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    StringBuilder concatenatedText = new StringBuilder();
+                    for (String s : text) {
+                        concatenatedText.append(s).append(" ");
+                    }
+
+                    // Set the concatenated text to userText
+                    userText.setText(concatenatedText.toString().trim());
+
+                }
+                break;
+        }
+
     }
 
 }
