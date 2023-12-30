@@ -1,21 +1,35 @@
+
 package com.example.translationapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognitionService;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
 
     private TextView viewPolicyPage;
     private View proceedbtn;
     private CheckBox IsAgree;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
         //Get button through which user
         // proceed_to_dashboard page
         proceedbtn = findViewById(R.id.continueBtn);
@@ -74,7 +92,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Unable to redirect Dashboard", Toast.LENGTH_SHORT).show();
                 }
             }
+
         });
 
     }
-}
+
+
+    }

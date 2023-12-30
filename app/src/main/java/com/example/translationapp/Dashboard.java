@@ -1,13 +1,17 @@
 package com.example.translationapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Dashboard extends AppCompatActivity {
@@ -22,11 +27,11 @@ public class Dashboard extends AppCompatActivity {
     private View translateBtn;
     private TextView translatedText;
     private String result;
-    private TextView sourcelan;
-    private TextView targetlan;
-    private TranslationServiceManager serviceManager;
-    private  Clipboard clipboard;
-    private MyLanguages languages;
+    TranslationServiceManager serviceManager = new TranslationServiceManager();
+    private TextToSpeech textToSpeech;
+    protected static final int RESULT_SPEECH = 1;
+    private ImageButton imageView7;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +44,7 @@ public class Dashboard extends AppCompatActivity {
 
         setContentView(R.layout.activity_dashboard);
 
-        //All Intents
-        Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
-
-
         //Initialize variables
-        languages = new MyLanguages();
-
         // Getting User Input text box
         userText = findViewById(R.id.translatedtextbox);
 
@@ -56,28 +55,16 @@ public class Dashboard extends AppCompatActivity {
         //Text View where translated text display
         translatedText = findViewById(R.id.translatedTextView);
 
-        //Getting source language from source language textView
-        sourcelan = findViewById(R.id.sourcelanguage);
-
-        //Getting target language from target language textView
-        targetlan = findViewById(R.id.targetlanguage);
-
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String source = sourcelan.getText().toString();
-                String target = targetlan.getText().toString();
-
-                String sourceLanCode = languages.languageCode(source);
-                String targetLanCode = languages.languageCode(target);
-
-                createThread(sourceLanCode,targetLanCode,userText.getText().toString());
+                createThread("en", "ur", userText.getText().toString());
                 translatedText.setText(result);
             }
         });
 
-        clipboard = new Clipboard(Dashboard.this);
 
+        Clipboard clipboard = new Clipboard(Dashboard.this);
         //Implement CopyText Logic for userText
         ImageView usertxt = findViewById(R.id.usertxtCopy);
         CharSequence usertext_to_copy = userText.getText().toString();
@@ -85,12 +72,8 @@ public class Dashboard extends AppCompatActivity {
         usertxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(usertext_to_copy != null && usertext_to_copy != " "){
-                    clipboard.SaveToClipboard(usertext_to_copy);
-                }
-                else{
-                    Toast.makeText(Dashboard.this, "Runnong", Toast.LENGTH_SHORT).show();
-                }
+                clipboard.SaveToClipboard(usertext_to_copy);
+                Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -101,9 +84,8 @@ public class Dashboard extends AppCompatActivity {
         translatedtxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!((String) transtext_to_copy).isEmpty()){
-                    clipboard.SaveToClipboard(transtext_to_copy);
-                }
+                clipboard.SaveToClipboard(transtext_to_copy);
+                Toast.makeText(Dashboard.this, "Copied!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,12 +94,12 @@ public class Dashboard extends AppCompatActivity {
         TextListner listner = new TextListner(this);
 
         listenUserText.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 String text = userText.getText().toString();
-                    listner.speak(text);
-             }
-         });
+            @Override
+            public void onClick(View v) {
+                String text = userText.getText().toString();
+                listner.speak(text);
+            }
+        });
 
         //Implement Listen text logic for translated text
         ImageView listenTransText = findViewById(R.id.translatedttxtListen);
@@ -130,24 +112,49 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        //Shut Down feature
-        //User navigate to startup screen
+        //Shut Down
         ImageView shutdown = findViewById(R.id.shutdownImg);
         shutdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent shutdownIntent = new Intent(Dashboard.this, MainActivity.class);
                 startActivity(shutdownIntent);
+            }
+        });
+
+        //Speech to text recognition
+
+        imageView7 = findViewById(R.id.imageView7);
+        imageView7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en_US");
+
+                try {
+                    startActivityForResult(intent, RESULT_SPEECH);
+                    Toast.makeText(Dashboard.this, "Speaking", Toast.LENGTH_SHORT).show();
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "Your device doesn't support Speech to Text", Toast.LENGTH_SHORT).show();
+
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-   public void createThread(String source,String target, String text){
 
-       serviceManager = new TranslationServiceManager();
+    public void createThread(String source, String target, String text) {
+
+        String sourceLanguage = source;
+        String targetLanguage = target;
+        String textToTranslate = text;
+
 
         new Thread(() -> {
             try {
-                result = serviceManager.translateText(source, target, text);
+                result = serviceManager.translateText(sourceLanguage, targetLanguage, textToTranslate);
 
                 //Convert String to Json Object
                 try {
@@ -167,7 +174,29 @@ public class Dashboard extends AppCompatActivity {
                 // Handle any exceptions
             }
         }).start();
+
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_SPEECH:
+                if (resultCode == RESULT_OK && data != null) {
+                    ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    StringBuilder concatenatedText = new StringBuilder();
+                    for (String s : text) {
+                        concatenatedText.append(s).append(" ");
+                    }
+
+                    // Set the concatenated text to userText
+                    userText.setText(concatenatedText.toString().trim());
+
+                }
+                break;
+        }
+
+    }
 }
 

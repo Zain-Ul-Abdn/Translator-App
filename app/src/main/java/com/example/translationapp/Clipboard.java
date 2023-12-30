@@ -3,26 +3,23 @@ package com.example.translationapp;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 public class Clipboard {
     private ClipboardManager clipboardManager;
-    private Context context;
     Clipboard(Context context){
-        this.context = context;
+        clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
     }
 
     public void SaveToClipboard(CharSequence text){
         try {
-            clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newPlainText("User Text", text);
-                clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(context, "Text Copied", Toast.LENGTH_SHORT).show();
 
+            if(!text.equals(" ")){
+                ClipData clipData = ClipData.newPlainText("User Text", text);
+                clipboardManager.setPrimaryClip(clipData);
+            }
         }catch (Exception e){
             //hande exception
-            Toast.makeText(context, "Text not copied", Toast.LENGTH_SHORT).show();
         }
     }
 
