@@ -23,16 +23,13 @@
         android:textSize="25sp"
         app:fontFamily="@font/inria_sans_bold" />
 
-    <EditText
-        android:id="@+id/searchtxt"
-        android:layout_width="397dp"
-        android:layout_height="67dp"
-        android:layout_marginTop="5dp"
+    <SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:ems="10"
-        android:hint="Search your language"
-        android:inputType="textPersonName" />
-
+        android:queryHint="Search your language" />
     <TextView
         android:id="@+id/textView16"
         android:layout_width="395dp"
@@ -51,5 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="723dp"
         android:layout_weight="1" />
+
+
 
 </LinearLayout>

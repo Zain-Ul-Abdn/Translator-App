@@ -211,8 +211,8 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="317dp"
-        android:layout_height="61dp"
+        android:layout_width="347dp"
+        android:layout_height="60dp"
         android:layout_marginTop="44dp"
         android:background="@drawable/langnavigatorstyle"
         android:elevation="8dp"
@@ -224,38 +224,6 @@
         app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <TextView
-            android:id="@+id/sourcelanguage"
-            android:layout_width="92dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/strokeremove"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:text="English"
-            android:textSize="21dp"
-            app:fontFamily="@font/inria_sans_bold" />
-
-        <TextView
-            android:id="@+id/targetlanguage"
-            android:layout_width="67dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_marginEnd="40dp"
-
-            android:layout_marginTop="5dp"
-            android:background="@drawable/strokeremove"
-            android:ems="10"
-
-
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:text="Urdu"
-            android:textSize="21dp"
-            app:fontFamily="@font/inria_sans_bold" />
 
         <ImageView
             android:id="@+id/imageView10"
@@ -272,14 +240,46 @@
             app:srcCompat="@drawable/icons8_azerbaijan_48" />
 
         <ImageView
-            android:id="@+id/imageView12"
+            android:id="@+id/changelanPos"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginStart="145dp"
+            android:layout_marginStart="155dp"
 
             android:layout_marginTop="8dp"
 
             app:srcCompat="@drawable/exchange" />
+
+        <TextView
+            android:id="@+id/targetlanguage"
+            android:layout_width="67dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="55dp"
+
+            android:layout_marginTop="5dp"
+            android:background="@drawable/strokeremove"
+            android:ems="10"
+
+
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="Urdu"
+            android:textSize="21dp"
+            app:fontFamily="@font/inria_sans_bold" />
+
+        <TextView
+            android:id="@+id/sourcelanguage"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/strokeremove"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="English"
+            android:textSize="21dp"
+            app:fontFamily="@font/inria_sans_bold" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

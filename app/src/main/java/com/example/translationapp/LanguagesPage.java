@@ -2,22 +2,29 @@ package com.example.translationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class LanguagesPage extends AppCompatActivity {
-    private LanguagesListView lanlistview;
-    private EditText searchText;
+    private LanguageSelector lanlistview;
+    private SearchView searchText;
     private  ArrayAdapter<String> adapter;
+    private  ArrayList<String> languages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,42 +36,67 @@ public class LanguagesPage extends AppCompatActivity {
 
         setContentView(R.layout.activity_languages_page);
 
+        Intent dashboardIntent = new Intent(LanguagesPage.this,Dashboard.class);
+
         ListView langList = findViewById(R.id.list1);
-        searchText = findViewById(R.id.searchtxt);
+
+        searchText = findViewById(R.id.search_bar);
+
+        String required = getIntent().getStringExtra("Language");
+        String previously = getIntent().getStringExtra("Previous");
 
         try {
-            lanlistview = new LanguagesListView();
+            lanlistview = new LanguageSelector();
             if(lanlistview!=null){
-                ArrayList<String> array = lanlistview.languagesList();
-                String [] languages = array.toArray(new String[0]);
+                languages = lanlistview.listAllLanguages();
 
                  adapter = new ArrayAdapter<>(LanguagesPage.this, android.R.layout.simple_dropdown_item_1line, languages);
                 langList.setAdapter(adapter);
             }
             else{
-                Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
+                Log.e("ListView Null Error", "onCreate: List view is null");
             }
 
         }catch(Exception e){
-            Toast.makeText(this, "I am failed", Toast.LENGTH_SHORT).show();
+            Log.e("ListView Error", "onCreate: List view items exception");
         }
 
-        searchText.addTextChangedListener(new TextWatcher() {
+
+        langList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
+                if(required.equals("source")){
+                    dashboardIntent.putExtra("Required","source");
+                    dashboardIntent.putExtra("Language",parent.getItemAtPosition(position).toString());
+                    dashboardIntent.putExtra("previous",previously);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                (LanguagesPage.this).adapter.getFilter().filter(s);
-            }
+                }
+                else{
+                    dashboardIntent.putExtra("Language",parent.getItemAtPosition(position).toString());
+                    dashboardIntent.putExtra("Required","target");
+                    dashboardIntent.putExtra("previous",previously);
 
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                }
+                startActivity(dashboardIntent);
             }
         });
+
+
+        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
 
     }
 }

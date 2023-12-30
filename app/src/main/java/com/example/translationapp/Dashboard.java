@@ -26,7 +26,7 @@ public class Dashboard extends AppCompatActivity {
     private TextView targetlan;
     private TranslationServiceManager serviceManager;
     private  Clipboard clipboard;
-    private MyLanguages languages;
+    private LanguageSelector languages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +41,12 @@ public class Dashboard extends AppCompatActivity {
 
         //All Intents
         Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
+        Intent sourceLanguage = new Intent(Dashboard.this,LanguagesPage.class);
+        Intent targetLanguage = new Intent(Dashboard.this,LanguagesPage.class);
 
 
         //Initialize variables
-        languages = new MyLanguages();
+        languages = new LanguageSelector();
 
         // Getting User Input text box
         userText = findViewById(R.id.translatedtextbox);
@@ -62,17 +64,68 @@ public class Dashboard extends AppCompatActivity {
         //Getting target language from target language textView
         targetlan = findViewById(R.id.targetlanguage);
 
+        String languageIntent = getIntent().getStringExtra("Language");
+        String required = getIntent().getStringExtra("Required");
+        String previous = getIntent().getStringExtra("previous");
+
+        if(languageIntent != null){
+            if (required.equals("source")){
+                sourcelan.setText(languageIntent);
+                targetlan.setText(previous);
+            }
+            else{
+                targetlan.setText(languageIntent);
+                sourcelan.setText(previous);
+            }
+        }
+
+        else{
+            targetlan.setText(languages.getTargetlan());
+            sourcelan.setText(languages.getSourcelan());
+        }
+
+        //Implement swapping the source and target language
+        ImageView swaplan = findViewById(R.id.changelanPos);
+
+        swaplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String swap = sourcelan.getText().toString();
+                sourcelan.setText(targetlan.getText().toString());
+                targetlan.setText(swap);
+            }
+        });
+
+
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String source = sourcelan.getText().toString();
                 String target = targetlan.getText().toString();
 
-                String sourceLanCode = languages.languageCode(source);
-                String targetLanCode = languages.languageCode(target);
+                String sourceLanCode = languages.getlanguageCode(source);
+                String targetLanCode = languages.getlanguageCode(target);
 
                 createThread(sourceLanCode,targetLanCode,userText.getText().toString());
                 translatedText.setText(result);
+            }
+        });
+
+        sourcelan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sourceLanguage.putExtra("Language","source");
+                sourceLanguage.putExtra("Previous",targetlan.getText().toString());
+                startActivity(sourceLanguage);
+            }
+        });
+
+        targetlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                targetLanguage.putExtra("Language","target");
+                targetLanguage.putExtra("Previous",sourcelan.getText().toString());
+                startActivity(targetLanguage);
             }
         });
 
