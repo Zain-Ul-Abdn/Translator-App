@@ -2,8 +2,11 @@ package com.example.translationapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 import androidx.annotation.ContentView;
 import androidx.annotation.Nullable;
@@ -14,7 +17,6 @@ public class Model extends SQLiteOpenHelper {
         private static final String Col_1 = "ID";
         private static final String Col_2 = "Usertxt";
         private static final String Col_3 = "Translatedtxt";
-
 
     private static final int DATABASE_VERSION = 1;
 
@@ -44,6 +46,53 @@ public class Model extends SQLiteOpenHelper {
             return false;
         }
         else {
+            return true;
+        }
+    }
+
+    private Cursor getTranslations(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res  = db.rawQuery("Select * from "+TABLE_NAME,null);
+
+        return res;
+
+    }
+
+    public ArrayList<String> getUserTextList(){
+        ArrayList<String> usertxt_array = new ArrayList<>();
+
+        Cursor data = getTranslations();
+        if(data.getCount() == 0){
+            return null;
+        }
+        else {
+            while (data.moveToNext()) {
+                usertxt_array.add(data.getString(1));
+            }
+            return usertxt_array;
+        }
+    }
+
+    public ArrayList<String> getTranslatedTextList(){
+        ArrayList<String> translatedtxt_array = new ArrayList<>();
+
+        Cursor data = getTranslations();
+        if(data.getCount() == 0){
+            return null;
+        }
+        else {
+            while (data.moveToNext()) {
+                translatedtxt_array.add(data.getString(2));
+            }
+            return translatedtxt_array;
+        }
+    }
+
+    public boolean checkRecent(){
+        if(getUserTextList()==null || getTranslatedTextList()==null){
+            return false;
+        }
+        else{
             return true;
         }
     }
