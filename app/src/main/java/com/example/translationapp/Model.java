@@ -88,6 +88,12 @@ public class Model extends SQLiteOpenHelper {
         }
     }
 
+    public void clearAll(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME,null,null);
+    }
+
+
     public boolean checkRecent(){
         if(getUserTextList()==null || getTranslatedTextList()==null){
             return false;
