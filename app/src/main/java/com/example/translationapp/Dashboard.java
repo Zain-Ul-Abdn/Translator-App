@@ -31,9 +31,11 @@ public class Dashboard extends AppCompatActivity {
     private TranslationServiceManager serviceManager;
     private  Clipboard clipboard;
     private LanguageSelector languages;
-
     protected static final int RESULT_SPEECH = 1;
     private ImageView imageView7;
+
+
+    private Model databaseCon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,12 @@ public class Dashboard extends AppCompatActivity {
         getSupportActionBar().hide(); //This line hide default header
 
         setContentView(R.layout.activity_dashboard);
+
+        //SQLite Database connectivity #########
+
+         databaseCon = new Model(this);
+
+        //##############
 
         //All Intents
         Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
@@ -107,7 +115,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-
+        //Text translation logic placed here
         translateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +127,22 @@ public class Dashboard extends AppCompatActivity {
 
                 createThread(sourceLanCode,targetLanCode,userText.getText().toString());
                 translatedText.setText(result);
+                //Translated text save into database
+                //for later use
+
+                if(result != null){
+                    boolean isInserted = databaseCon.Insert(userText.getText().toString(), translatedText.getText().toString());
+
+                    if (isInserted) {
+                        Toast.makeText(Dashboard.this, "Inserted", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(Dashboard.this, "Not Inserted", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+
             }
         });
 
@@ -248,6 +272,8 @@ public class Dashboard extends AppCompatActivity {
                     //Get Nested Objects
                     JSONObject data = new JSONObject(jsonObject.getString("data"));
                     result = data.getString("translatedText");
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -257,6 +283,7 @@ public class Dashboard extends AppCompatActivity {
                 // Handle any exceptions
             }
         }).start();
+
     }
 
 
