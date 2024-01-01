@@ -13,7 +13,7 @@
             android:name=".RecentHistory_Activity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Dashboard"
             android:exported="false" />
         <activity
             android:name=".LanguagesPage"
@@ -22,7 +22,7 @@
             android:name=".PolicyPage"
             android:exported="false" />
         <activity
-            android:name=".Dashboard"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
