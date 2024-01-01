@@ -30,7 +30,7 @@ public class Dashboard extends AppCompatActivity {
     private  Clipboard clipboard;
     private LanguageSelector languages;
     protected static final int RESULT_SPEECH = 1;
-    private ImageView imageView7,history,shutdown;
+    private ImageView imageView7,history,shutdown,showCamera;
 
     private Model databaseCon;
 
@@ -57,6 +57,7 @@ public class Dashboard extends AppCompatActivity {
         Intent targetLanguage = new Intent(Dashboard.this,LanguagesPage.class);
         Intent historyIntent = new Intent(Dashboard.this,RecentHistory_Activity.class);
 
+
         //Initialize variables
         languages = new LanguageSelector();
 
@@ -80,6 +81,13 @@ public class Dashboard extends AppCompatActivity {
         String required = getIntent().getStringExtra("Required");
         String previous = getIntent().getStringExtra("previous");
         String previousInput = getIntent().getStringExtra("userText");
+
+        //Getting capture text
+        String text = getIntent().getStringExtra("Capture");
+        if(text != " "){
+            userText.setText(text);
+            text = "";
+        }
 
         if(languageIntent != null){
             if (required.equals("source")){
@@ -229,6 +237,18 @@ public class Dashboard extends AppCompatActivity {
                 startActivity(historyIntent);
             }
         });
+
+
+        showCamera=findViewById(R.id.imageView6);
+        showCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent camera=new Intent(Dashboard.this,Picture_Text_Activity.class);
+                startActivity(camera);
+
+            }
+        });
+
 
 
         //Speech to text recognition
