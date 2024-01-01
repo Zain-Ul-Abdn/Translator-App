@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TranslationApp">
         <activity
+            android:name=".RecentHistory_Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

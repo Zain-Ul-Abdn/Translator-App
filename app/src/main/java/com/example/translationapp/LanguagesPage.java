@@ -18,6 +18,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class LanguagesPage extends AppCompatActivity {
     private LanguageSelector lanlistview;
@@ -48,12 +50,24 @@ public class LanguagesPage extends AppCompatActivity {
 
         try {
             lanlistview = new LanguageSelector();
-            if(lanlistview!=null){
+            if (lanlistview != null) {
+                // Assuming lanlistview is an instance of some class that has a method listAllLanguages()
                 languages = lanlistview.listAllLanguages();
 
-                 adapter = new ArrayAdapter<>(LanguagesPage.this, android.R.layout.simple_dropdown_item_1line, languages);
+                // Assuming languages is a List<String>
+                Collections.sort(languages);
+
+                // Copy the original list to avoid modifying it directly
+                List<String> list = new ArrayList<>(languages);
+
+                // Assuming previously is a String representing the language to be removed
+                list.remove(previously);
+
+                // Now, list contains the modified list with 'previously' removed
+                adapter = new ArrayAdapter<>(LanguagesPage.this, android.R.layout.simple_dropdown_item_1line, list);
                 langList.setAdapter(adapter);
             }
+
             else{
                 Log.e("ListView Null Error", "onCreate: List view is null");
             }
@@ -61,6 +75,7 @@ public class LanguagesPage extends AppCompatActivity {
         }catch(Exception e){
             Log.e("ListView Error", "onCreate: List view items exception");
         }
+
 
 
         langList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

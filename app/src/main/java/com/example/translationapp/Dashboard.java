@@ -24,16 +24,13 @@ import java.util.Locale;
 public class Dashboard extends AppCompatActivity {
     private MultiAutoCompleteTextView userText;
     private View translateBtn;
-    private TextView translatedText;
     private String result;
-    private TextView sourcelan;
-    private TextView targetlan;
+    private TextView sourcelan,translatedText,targetlan;
     private TranslationServiceManager serviceManager;
     private  Clipboard clipboard;
     private LanguageSelector languages;
     protected static final int RESULT_SPEECH = 1;
-    private ImageView imageView7;
-
+    private ImageView imageView7,history,shutdown;
 
     private Model databaseCon;
 
@@ -58,7 +55,7 @@ public class Dashboard extends AppCompatActivity {
         Intent shutdownIntent = new Intent(Dashboard.this,MainActivity.class);
         Intent sourceLanguage = new Intent(Dashboard.this,LanguagesPage.class);
         Intent targetLanguage = new Intent(Dashboard.this,LanguagesPage.class);
-
+        Intent historyIntent = new Intent(Dashboard.this,RecentHistory_Activity.class);
 
         //Initialize variables
         languages = new LanguageSelector();
@@ -131,18 +128,8 @@ public class Dashboard extends AppCompatActivity {
                 //for later use
 
                 if(result != null){
-                    boolean isInserted = databaseCon.Insert(userText.getText().toString(), translatedText.getText().toString());
-
-                    if (isInserted) {
-                        Toast.makeText(Dashboard.this, "Inserted", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(Dashboard.this, "Not Inserted", Toast.LENGTH_SHORT).show();
-
-                    }
+                    databaseCon.Insert(userText.getText().toString(), translatedText.getText().toString());
                 }
-
-
             }
         });
 
@@ -225,11 +212,21 @@ public class Dashboard extends AppCompatActivity {
 
         //Shut Down feature
         //User navigate to startup screen
-        ImageView shutdown = findViewById(R.id.shutdownImg);
+        shutdown = findViewById(R.id.shutdownImg);
         shutdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(shutdownIntent);
+            }
+        });
+
+        //Recent History feature
+        //User navigate to history screen
+        history = findViewById(R.id.imageView8);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(historyIntent);
             }
         });
 
@@ -285,7 +282,6 @@ public class Dashboard extends AppCompatActivity {
         }).start();
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

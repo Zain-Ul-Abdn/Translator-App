@@ -96,7 +96,9 @@ public class LanguageSelector {
 
 
     private void AddLanguages(){
-        Arrays.sort(languages);
+       // Arrays.sort(languages);
+       // Arrays.sort(langCode);
+
         for (int i = 0; i < languages.length; i++) {
             setLanguage(languages[i],langCode[i]);
         }
